@@ -1,74 +1,19 @@
--- Existing Version created by JLM prior to 3/14/22
-SELECT 
-CAL_CYMD "Date"
-,CUST_CHN_ID "Chain ID"
-,CUST_GRP_NAM "Chain Name"
-,CUST_ACCT_ID "Cust Acct ID"
-,CUST_ACCT_NAM "Cust Name"
-,LOC_ID "Home DC"
-,"DC Name"
---JVM 6/14/21
-,"Source"
-,SPLR_ACCT_ID "Supplier ID"
-,IFNULL(LEAD_INS_SPLR_NAM,'N/A') "Supplier Name"
-,BUYERID "Buyer ID"
-,BUYER "Buyer Name"
-,MANAGER "Buyer Mgr"
-,EM_ITEM_NUM "Product #"
-,SELL_DSCR "Sell Description"
-,ITEM_ACTVY_CD "Status"
-,RXDA_CD "RXDA CD"
-,RXDA_DSCR "RXDA Desc"
-,MICA_DEPT_ID "MICA Dept ID"
-,MICA_DEPT_DSCR "MICA Dept Desc"
-,NDC_NUM "NDC Num"
-,UPC_NUM "UPC Num"
-,GNRC_ID "GCN"
-,GNRC_NAM "Generic Name"
-,PLNOGRM_IND "Planogram"
---JVM 8/12/21 Therapeutic Class
-,THERA_CLS_CD "Thera Cls CD"
-,THERA_CLS_DSCR "Thera Cls Desc"
---JVM 7/14/21 add updated CAR fields
-,"CAR Active"
-,"CAR Hist"
-,"CAR Type"
-,RESOLUTION "Resolution"
-,BEG_EFF_CCYYMMDD_DT "Start"
-,END_EFF_CCYYMMDD_DT "End"
-,"Air Freight"
---,"CAR Item"
-,"Bx/Gx"
-,"Rx/OTC"
-,MCNS_OMIT_TYPE_IND "MCNS Omit Ind"
-,OMIT_CD "Omit Cd"
-,CUST_OMIT_DSCR "Omit Desc"
-,"Vaccine Indicator"
-,"Segment"
-,"Category"	
-,COST_PRC_AMT "WAC/Unit"
-,"Lines Ordered"
-,"Lines Filled"
-,"MCNS Line Omits"
-,"McK Line Omits"
-,"Units Ordered"
-,"Units Filled"
-,"MCNS Unit Omits"
-,"McK Unit Omits"
-,"Sales"
-
-FROM 
-
-(
-SELECT
-A.CAL_CYMD --"Date"
---DATE_PART('Year',A.CAL_CYMD) --"Year"
---,DATE_PART('Month',A.CAL_CYMD) --"Month"
-,D.CUST_CHN_ID --"Chain ID"
-,I.CUST_GRP_NAM --"Chain Name"
-,C.CUST_ACCT_ID --"Cust Acct ID"
-,D.CUST_ACCT_NAM --"Cust Name"  
-,J.LOC_ID --"Home DC"
+-- Edit: 3/29/22; Removed unsued tables, concatenate fields that were calculated in Tableau. 
+SELECT /*CASE 
+		WHEN A.CAL_CYMD >= date_trunc(DAY, CURRENT_DATE - 31) -- 30 Days prior to yesterday
+			THEN A.CAL_CYMD --daily
+		WHEN A.CAL_CYMD >= date_trunc(WEEK, CURRENT_DATE - 1) - 84 -- 12 weeks prior to yesterday
+			THEN date_trunc(WEEK, A.CAL_CYMD) --weekly
+		ELSE date_trunc(MONTH, A.CAL_CYMD) --monthly
+		END*/
+       A.CAL_CYMD as "Time Frame"
+--,D.CUST_CHN_ID as "Chain ID"
+--,I.CUST_GRP_NAM as "Chain Name"
+,D.CUST_CHN_ID || ' - ' || I.CUST_GRP_NAM as "Chain"
+--,C.CUST_ACCT_ID as "Cust Acct ID"
+--,D.CUST_ACCT_NAM as "Cust Name"  
+,C.CUST_ACCT_ID || ' - ' || D.CUST_ACCT_NAM as "Customer"
+--,J.LOC_ID as "Home DC"
 /** in SL Normal
 ,D.ACCT_DLVRY_ADDR --"CustAddr"
 ,D.ACCT_DLVRY_CTY_NAM --"CustCity"
@@ -76,34 +21,40 @@ A.CAL_CYMD --"Date"
 ,D.ACCT_DLVRY_ZIP --"CustZip"
 ,D.ACCT_DLVRY_AREA_CD --"CustAreaCode"
 ,D.ACCT_DLVRY_PH_NUM --"CustPhone"**/
-,(CASE
+,J.LOC_ID || ' - ' || (CASE
  WHEN J.LOC_ID = 8980 THEN 'McKesson Plasma Biologics'
  ELSE L.DC_NAME
- END) "DC Name"
+ END) as "DC"
 --JVM 6/14/21
-,O.SOURCE "Source"
-,F.SPLR_ACCT_ID --"Supplier ID"
-,G.LEAD_INS_SPLR_NAM --"Supplier Name"
-,M.BUYERID --"Buyer ID"
-,M.BUYER --"Buyer Name"
-,M.MANAGER -- "Buyer Mgr"
-,E.EM_ITEM_NUM --"Product #"
-,F.SELL_DSCR --"Sell Description"
-,F.ITEM_ACTVY_CD --"Status"
-,F.RXDA_CD -- "RXDA CD"
-,F.RXDA_DSCR -- "RXDA Desc"
-,F.MICA_DEPT_ID -- "MICA Dept ID"
-,F.MICA_DEPT_DSCR -- "MICA Dept Desc"
-,F.NDC_NUM --"NDC Num"
-,F.UPC_NUM --"UPC Num"
-,F.GNRC_ID --"GCN"
-,F.GNRC_NAM --"Generic Name"
-,F.PLNOGRM_IND --"Planogram"
+,O.SOURCE as "Source"
+--,F.SPLR_ACCT_ID as "Supplier ID"
+,G.LEAD_INS_SPLR_NAM as "Supplier Name"
+,F.SPLR_ACCT_ID || ' - ' || G.LEAD_INS_SPLR_NAM as "Supplier"
+--,M.BUYERID as "Buyer ID"
+--,M.BUYER as "Buyer Name"
+,M.BUYERID || ' - ' || M.BUYER as "Buyer"
+,M.MANAGER as "Buyer Mgr"
+--,E.EM_ITEM_NUM as "Product #"
+--,F.SELL_DSCR as "Sell Description"
+,E.EM_ITEM_NUM || ' - ' || F.SELL_DSCR as "Item"
+--,F.ITEM_ACTVY_CD as "Status"
+--,F.RXDA_CD as "RXDA CD"
+--,F.RXDA_DSCR as "RXDA Desc"
+,F.RXDA_CD || ' - ' || F.RXDA_DSCR as "RXDA"
+--,F.MICA_DEPT_ID as "MICA Dept ID"
+--,F.MICA_DEPT_DSCR as "MICA Dept Desc"
+,F.MICA_DEPT_ID || ' - ' || F.MICA_DEPT_DSCR as "MICA"
+,F.NDC_NUM as "NDC Num"
+,F.UPC_NUM as "UPC Num"
+,F.GNRC_ID as "GCN"
+,F.GNRC_NAM as "Generic Name"
+,F.PLNOGRM_IND as "Planogram"
 --JVM 8/12/21 Therapeutic Class
-,Q.THERA_CLS_CD --"Thera Cls CD", 
-,Q.THERA_CLS_DSCR --"Thera Cls Desc",
+--,Q.THERA_CLS_CD as "Thera Cls CD"
+--,Q.THERA_CLS_DSCR as "Thera Cls Desc"
+,Q.THERA_CLS_CD || ' - ' || Q.THERA_CLS_CD as "Therapeutic Class"
 --JVM 7/14/21 add updated CAR logic
-,(CASE 
+/*,(CASE 
   WHEN K.CURR_IND = 'Y' THEN 'Y'
   ELSE 'N'
   END) "CAR Active"
@@ -111,23 +62,23 @@ A.CAL_CYMD --"Date"
   --JVM 7/14/21 - cannot use 'CURR_IND' for this - check against entries based on date of transction
   WHEN A.CAL_CYMD >= P.BEG_EFF_CCYYMMDD_DT and A.CAL_CYMD <= P.END_EFF_CCYYMMDD_DT THEN 'Y'
   ELSE 'N'
-  END) "CAR Hist"
+  END) "CAR Hist"*/
 --JVM 7/14/21 Logic leveraged from NorthStar SL script - JVM modified first WHEN line to match above 'Curr Car Item' logic
-,(CASE 
+/*,(CASE 
 --WHEN N.CURR_IND = 'Y' AND 
-WHEN A.CAL_CYMD >= P.BEG_EFF_CCYYMMDD_DT and A.CAL_CYMD <= P.END_EFF_CCYYMMDD_DT
+--WHEN A.CAL_CYMD >= P.BEG_EFF_CCYYMMDD_DT and A.CAL_CYMD <= P.END_EFF_CCYYMMDD_DT
 AND (P.RESOLUTION  like 'DISCO%' or P.RESOLUTION  like 'INACTIVE%' 
 or P.RESOLUTION  like '%BACKORDER%' or P.RESOLUTION  like '%SHORT DATED%' or P.RESOLUTION like 'NEW ITEM%')
 THEN 'Uncontrollable'
 ELSE 'Controllable'
-END) "CAR Type"
-,P.RESOLUTION --"Resolution"
-,P.BEG_EFF_CCYYMMDD_DT --"Start"
-,P.END_EFF_CCYYMMDD_DT --"End"
+END) as "CAR Type"*/
+--,P.RESOLUTION as "Resolution"
+--,P.BEG_EFF_CCYYMMDD_DT as "Start"
+--,P.END_EFF_CCYYMMDD_DT as "End"
 ,(CASE
  WHEN E.SELL_DSCR like '%=%' THEN 'T'
  ELSE 'F'
- END) "Air Freight"
+ END) as "Air Freight"
 /*,(CASE 
 WHEN K.EM_ITEM_NUM IS NOT NULL THEN 'Y'
 ELSE 'N'
@@ -135,26 +86,27 @@ END) "CAR Item"*/
 ,(CASE 
 WHEN F.GNRC_IND = 'Y' THEN 'Gx'
 ELSE 'Bx'
-END) "Bx/Gx"
+END) as "Bx/Gx"
 ,(CASE F.RXDA_CD
 WHEN 'N' THEN 'OTC'
 ELSE 'Rx'
-END) "Rx/OTC"
-,A.MCNS_OMIT_TYPE_IND--"MCNS Omit Ind"
-,A.OMIT_CD --"Omit Cd"
-,B.CUST_OMIT_DSCR --"Omit Desc"
-,F.COST_PRC_AMT --"WAC/Unit"
-,(CASE 
-  WHEN H.COPA_DEPT_CD  = 'V1' THEN 'Core'
-  WHEN H.COPA_DEPT_CD  = 'V2' THEN 'Flu'
-  ELSE H.COPA_DEPT_CD
-  END) "Vaccine Indicator"  
+END) as "Rx/OTC"
+--,A.MCNS_OMIT_TYPE_IND as "MCNS Omit Ind"
+--,A.OMIT_CD as "Omit Cd"
+--,B.CUST_OMIT_DSCR as "Omit Desc"
+,A.OMIT_CD || ' - ' || nvl(B.CUST_OMIT_DSCR,'N/A') as "Omit Reason"
+--,F.COST_PRC_AMT as "WAC/Unit"
+--,(CASE 
+ -- WHEN H.COPA_DEPT_CD  = 'V1' THEN 'Core'
+ -- WHEN H.COPA_DEPT_CD  = 'V2' THEN 'Flu'
+  --ELSE H.COPA_DEPT_CD
+  --END) "Vaccine Indicator"  
  --JVM - Updated 2021 Segment & Category logic
 ,(CASE
    WHEN 
 	D.VRITE_BUS_TYP_CD IN ('H1','H2') 	     												THEN 'HEALTHMART'
     ELSE IFNULL(N.SEGMENT, 'OTHER')
-  	END) "Segment"
+  	END) as "Segment"
 /*,(CASE
 	WHEN 
 	D.VRITE_BUS_TYP_CD IN ('H1','H2') 	     												THEN 'HEALTHMART'
@@ -191,19 +143,19 @@ END) "Rx/OTC"
 		WHEN (E.SVC_LVL_CTGY_CD = 'P')						THEN 'Private Label'
 		WHEN (E.RXDA_CD = 'N') 						        THEN 'OTC'
 															ELSE 'OTHER'
-	  END) "Category"
+	  END) as "Category"
   
 --TOTAL LINES ORDERED
-,COUNT(A.ORDR_QTY) "Lines Ordered"
+,COUNT(A.ORDR_QTY) as "Lines Ordered"
   
 --TOTAL LINES FILLED
 ,SUM(CASE 
      WHEN (A.FILL_QTY > 0) THEN 1
      ELSE 0
-     END) "Lines Filled"
+     END) as "Lines Filled"
 
 --MCNS LINE OMITS (JVM added 'O' logic to match SLA dashboards)
-,SUM(CASE WHEN ((A.MCNS_OMIT_TYPE_IND = 'Y' OR A.OMIT_CD = 'O') AND A.FILL_QTY  = 0) THEN 1 ELSE 0 END) "MCNS Line Omits"
+,SUM(CASE WHEN ((A.MCNS_OMIT_TYPE_IND = 'Y' OR A.OMIT_CD = 'O') AND A.FILL_QTY  = 0) THEN 1 ELSE 0 END) as "MCNS Line Omits"
 
 --LEGACY: MCK LINE OMITS
 --JVM 3/8/2021 added OMIT_CD <> 'O' to exclude 'O' from McK bucket
@@ -211,30 +163,30 @@ END) "Rx/OTC"
   
 --CURRENT LOGIC: MCK LINE OMITS
 --JVM 7/15/21 adding 'J' and 'V' 'Exceeds Threshold' OMIT_CDs as McK. OMIT_CD <> 'O' to exclude 'O' from McK bucket
-,SUM(CASE WHEN (((A.MCNS_OMIT_TYPE_IND = 'N' OR A.OMIT_CD in ('J','V')) AND A.OMIT_CD <>'O') AND A.FILL_QTY  = 0) THEN 1 ELSE 0 END) "McK Line Omits"  
+,SUM(CASE WHEN (((A.MCNS_OMIT_TYPE_IND = 'N' OR A.OMIT_CD in ('J','V')) AND A.OMIT_CD <>'O') AND A.FILL_QTY  = 0) THEN 1 ELSE 0 END) as "McK Line Omits"  
 
 --TOTAL UNITS ORDERED
-,SUM(A.ORDR_QTY) "Units Ordered"
+,SUM(A.ORDR_QTY) as "Units Ordered"
 
 --JVM - RAW omits
 --,SUM(A.OMIT_QTY) "Units Omitted"
 
 --RAW UNITS FILLED
-,SUM(CASE WHEN (A.FILL_QTY  > 0) THEN A.FILL_QTY ELSE 0 END) "Units Filled"
+,SUM(CASE WHEN (A.FILL_QTY  > 0) THEN A.FILL_QTY ELSE 0 END) as "Units Filled"
   
 --LEGACY: MCNS UNIT OMITS --> JVM added 'O' logic to match SLA dashboards
 --,SUM(CASE WHEN ((A.MCNS_OMIT_TYPE_IND = 'Y' OR A.OMIT_CD = 'O') AND A.FILL_QTY  = 0) THEN A.OMIT_QTY ELSE 0 END) "MCNS Unit Omits Legacy"
   
 --JVM 7/8/21
 --CURRENT LOGIC: MCNS UNIT OMITS 
-,SUM(CASE WHEN ((A.MCNS_OMIT_TYPE_IND = 'Y' OR A.OMIT_CD = 'O') AND A.FILL_QTY < A.ORDR_QTY) THEN A.OMIT_QTY ELSE 0 END) "MCNS Unit Omits"
+,SUM(CASE WHEN ((A.MCNS_OMIT_TYPE_IND = 'Y' OR A.OMIT_CD = 'O') AND A.FILL_QTY < A.ORDR_QTY) THEN A.OMIT_QTY ELSE 0 END) as "MCNS Unit Omits"
   
 --LEGACY: MCK UNIT OMITS --> JVM added OMIT_CD <> 'O' to exclude 'O' omits from McK bucket
 --,SUM(CASE WHEN ((A.MCNS_OMIT_TYPE_IND = 'N' AND A.OMIT_CD <>'O') AND A.FILL_QTY  = 0) THEN A.OMIT_QTY ELSE 0 END) "McK Unit Omits Legacy"
   
 --CURRENT LOGIC: MCK UNIT OMITS
 --JVM 7/15/21 adding 'J' and 'V' 'Exceeds Threshold' OMIT_CDs as McK. OMIT_CD <> 'O' to exclude 'O' from McK bucket
-,SUM(CASE WHEN (((A.MCNS_OMIT_TYPE_IND = 'N' OR A.OMIT_CD in ('J','V')) AND A.OMIT_CD <>'O') AND A.FILL_QTY < A.ORDR_QTY) THEN A.OMIT_QTY ELSE 0 END) "McK Unit Omits"
+,SUM(CASE WHEN (((A.MCNS_OMIT_TYPE_IND = 'N' OR A.OMIT_CD in ('J','V')) AND A.OMIT_CD <>'O') AND A.FILL_QTY < A.ORDR_QTY) THEN A.OMIT_QTY ELSE 0 END) as "McK Unit Omits"
   
 --Repeat OMITS
 --,SUM(CASE WHEN ((A.WKLY_RPEAT_OMIT_CD = 'R') AND A.FILL_QTY  = 0) THEN A.OMIT_QTY ELSE 0 END) "Repeat Omits"
@@ -243,7 +195,7 @@ END) "Rx/OTC"
 --,SUM(CASE WHEN ((A.WKLY_RPEAT_OMIT_CD = 'M') AND A.FILL_QTY  = 0) THEN A.OMIT_QTY ELSE 0 END) "NonRepeat Omits"
   
 --SALES
-,SUM(A.SLS_EXT_AMT) "Sales"
+,SUM(A.SLS_EXT_AMT) as "Sales"
 
 FROM "PRD_PSAS_DB"."RPT"."T_SLA_CUST_ORD_DTL" A
 LEFT JOIN "PRD_PSAS_DB"."RPT"."T_OMIT_CODE" B on B.CUST_OMIT_CD = A.OMIT_CD
@@ -254,23 +206,26 @@ LEFT JOIN "PRD_PSAS_DB"."RPT"."T_IW_CUST_ACCT" D on D.CUST_ACCT_ID = C.CUST_ACCT
 LEFT JOIN "PRD_PSAS_DB"."RPT"."T_SLA_EM_ITEM" E on E.ITEM_SURR_KEY = A.FILL_ITEM_SURR_KEY
 LEFT JOIN "PRD_PSAS_DB"."RPT"."T_IW_EM_ITEM" F on F.EM_ITEM_NUM = E.EM_ITEM_NUM
 LEFT JOIN "PRD_PSAS_DB"."RPT"."PHARMA_SPLR_HIERARCHY" G on G.SPLR_ACCT_ID = F.SPLR_ACCT_ID
-LEFT JOIN "PRD_PSAS_DB"."RPT"."T_DM_VSTX_ITEM" H on H.EM_ITEM_NUM = E.EM_ITEM_NUM
+--LEFT JOIN "PRD_PSAS_DB"."RPT"."T_DM_VSTX_ITEM" H on H.EM_ITEM_NUM = E.EM_ITEM_NUM
 LEFT JOIN "PRD_PSAS_DB"."RPT"."T_IW_CUST_GRP" I on I.CUST_GRP_CD = D.CUST_CHN_ID
 LEFT JOIN "PRD_PSAS_DB"."RPT"."T_SLA_LOC" J on J.DC_SURR_KEY = A.HOME_DC_SURR_KEY --A.MAX_FILL_DC_SURR_KEY --
-LEFT JOIN "PRD_PSAS_DB"."RPT"."T_ITEM_MCNS" K on K.EM_ITEM_NUM = E.EM_ITEM_NUM AND K.CURR_IND = 'Y'
+--LEFT JOIN "PRD_PSAS_DB"."RPT"."T_ITEM_MCNS" K on K.EM_ITEM_NUM = E.EM_ITEM_NUM AND K.CURR_IND = 'Y'
 LEFT JOIN "PRD_PSAS_DB"."RPT"."V_DC_REG_BL" L on L.DC_ID = J.LOC_ID 
 LEFT JOIN "PRD_PSAS_DB"."RPT"."SPLR_BUYER_XREF" M on M.SUPPLR_ACCT_ID = F.SPLR_ACCT_ID
 LEFT JOIN "SBX_PSAS_DB"."ANALYTICS"."T_SEGMENT_XREF" N on N.CUST_BUS_TYP_CD = D.CUST_BUS_TYP_CD
 --JVM 6/14/21 Logic leveraged from CG VIEW
 LEFT JOIN "SBX_PSAS_DB"."ANALYTICS"."T_JVM_CG_SKU_REPLEN_SOURCE" O on O.EM_ITEM_NUM = F.EM_ITEM_NUM and O.BTCH_PROC_DT = A.CAL_CYMD and O.PLANT_NUM = J.LOC_ID
 --JVM 7/14/21 Logic leveraged from NorthStar SL script
-LEFT JOIN "PRD_PSAS_DB"."RPT"."T_ITEM_MCNS" P on P.EM_ITEM_NUM = F.EM_ITEM_NUM 
-and A.CAL_CYMD >= P.BEG_EFF_CCYYMMDD_DT and A.CAL_CYMD <= P.END_EFF_CCYYMMDD_DT
-and P.resolution not in ('AVAILABLE')
+--LEFT JOIN "PRD_PSAS_DB"."RPT"."T_ITEM_MCNS" P on P.EM_ITEM_NUM = F.EM_ITEM_NUM 
+--and A.CAL_CYMD >= P.BEG_EFF_CCYYMMDD_DT and A.CAL_CYMD <= P.END_EFF_CCYYMMDD_DT
+--and P.resolution not in ('AVAILABLE')
 --JVM 8/12/21 get Therapeutic Class
 LEFT JOIN "PRD_PSAS_DB"."RPT"."DIM_NDC_CURR" Q on Q.NDC_NUM = F.NDC_NUM
 
-WHERE
+WHERE A.CAL_CYMD >= '2022-01-01'--date_trunc(MONTH, DATEADD('MONTH', - 12, CURRENT_DATE () - 1)) -- Beginning of month, 12 months ago, from yesterday
+	AND A.CAL_CYMD < CURRENT_DATE ()
+    
+AND
 --JVM - EXCLUSIONS below from PROD SL Dashboards for NBC
 F.SELL_DSCR NOT LIKE '%DO NOT USE%'
 AND F.SELL_DSCR NOT LIKE '%DUMMY%'
@@ -307,11 +262,7 @@ AND E.EM_ITEM_NUM NOT IN (
 '2782456', --RETURN KIT DEA-REFRIGERATED
 '2790533' --RETURN KIT DEA-REFRIGERATED
 )
---return past X months of data to MTD
-AND A.CAL_CYMD >= CURRENT_DATE()-1
-AND A.CAL_CYMD < CURRENT_DATE()
-group by 
-1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43
 
-)A
-order by "Date", "Product #", "Segment", "Chain ID", "Cust Acct ID", "Supplier ID", "Buyer Name", "Home DC";
+GROUP BY 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24--,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43
+ORDER BY 1 /* Comment Out Order by before Tableau */
+;
