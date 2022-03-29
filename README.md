@@ -3,4 +3,4 @@ Enterprise Analytics, Business Intelligence, James Malaniuk Department
 
 Create a Project: Go to Projects folder and select "add file", enter a file name and hit "/". This creates a new folder for your project. From there you can create additional files within that Project's folder for change controls or other information.
 
-Change Controls:
+Change Controls: Update a file and save it, then select "view history" to compare the changes. Be sure to be descriptive with comments and dates on changes made to files.
