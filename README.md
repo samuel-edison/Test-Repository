@@ -3,6 +3,9 @@
 ## Guidelines:
 #### One repository per report or analysis project
 #### Repository name should align with report name
-#### Project Document should be created prior to Change Control document
-#### Technical Requirement Outline (TR) sequence should align with technical tasks (indicated by TR)
-#### Once Final Scope is reached, input information into Github "Project Requirements"
+## Workflow:
+#### Retrieve/Create Business Documentation
+#### Complete Exploratory Analysis
+#### Follow up with stakeholders on scope
+#### Finalize Business Requirements
+#### Begin Build / Document Technical Requirements
