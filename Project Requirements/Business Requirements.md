@@ -1,13 +1,6 @@
-# Serivce-Level-2.0
+# Serivce-Level-2.0 Business Requirements
 
-## GUIDELINES:
-#### One repository per report or analysis project
-#### Repository name should align with report name
-#### Project Document should be created prior to Change Control document
-#### Technical Requirement Outline (TR) sequence should align with technical tasks (indicated by TR)
-#### Once Final Scope is reached, input information into Github "Project Requirements"
-
-## INTAKE
+## Intake
 #### Project Name:
 #### Project Type: 
 #### Point of Contact:
@@ -18,7 +11,7 @@
 #### Stakeholder List:
 #### Project Description / Request:
 
-## DISCOVERY / DATA DESIGN
+## Discovery
 ### Business Requirement Documentation (FAQ)
 1. What is the core subject area?
 2. Is there any existing reporting being done around this?
