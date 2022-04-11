@@ -5,9 +5,7 @@ GUIDELINES:
 3. Project Document should be created prior to Change Control document
 4. Technical Requirement Outline (TR) sequence should align with technical tasks (indicated by TR)
 5. Once Final Scope is reached, input information into Github "Project Requirements"
-============================================================================================================
 INTAKE
-============================================================================================================
 Project Name:
 Project Type: 
 Point of Contact:
@@ -16,19 +14,11 @@ Communication Plan:
 Request Date: 
 Development Start Date:
 Stakeholder List:
-
-============================================================================================================
 Project Description / Request:
-======================================================
 
 
-============================================================================================================
 DISCOVERY / DATA DESIGN
-============================================================================================================
-Business Requirement Documentation
-======================================================
-FAQ:
-
+Business Requirement Documentation (FAQ)
 1. What is the core subject area?
 2. Is there any existing reporting being done around this?
 3. Where is the source data located?
@@ -41,27 +31,19 @@ FAQ:
 10. What data filters/slicers are you hoping for?
 11. What are the definitions of those data filters/slicers?
 12. How frequent is the data needed to be refreshed?
-======================================================
 Business Initial Requirement Outline:
-======================================================
 1.
 2.
 3.
 4.
 5.
-
-======================================================
 Final Business Scope (after data exploration):
-======================================================
 1.
 2.
 3.
 4.
 5.
-
-======================================================
 Out of Scope:
-======================================================
 1.
 Reason:
 2.
