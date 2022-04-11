@@ -1,11 +1,13 @@
 # Serivce-Level-2.0
-GUIDELINES:
+
+# GUIDELINES:
 1. One repository per report or analysis project
 2. Repository name should align with report name
 3. Project Document should be created prior to Change Control document
 4. Technical Requirement Outline (TR) sequence should align with technical tasks (indicated by TR)
 5. Once Final Scope is reached, input information into Github "Project Requirements"
-INTAKE
+
+# INTAKE
 Project Name:
 Project Type: 
 Point of Contact:
@@ -16,9 +18,8 @@ Development Start Date:
 Stakeholder List:
 Project Description / Request:
 
-
-DISCOVERY / DATA DESIGN
-Business Requirement Documentation (FAQ)
+# DISCOVERY / DATA DESIGN
+## Business Requirement Documentation (FAQ)
 1. What is the core subject area?
 2. Is there any existing reporting being done around this?
 3. Where is the source data located?
@@ -31,19 +32,19 @@ Business Requirement Documentation (FAQ)
 10. What data filters/slicers are you hoping for?
 11. What are the definitions of those data filters/slicers?
 12. How frequent is the data needed to be refreshed?
-Business Initial Requirement Outline:
+## Business Initial Requirement Outline:
 1.
 2.
 3.
 4.
 5.
-Final Business Scope (after data exploration):
+## Final Business Scope (after data exploration):
 1.
 2.
 3.
 4.
 5.
-Out of Scope:
+## Out of Scope:
 1.
 Reason:
 2.
