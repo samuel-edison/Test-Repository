@@ -1,11 +1,11 @@
 # Serivce-Level-2.0
 
 # GUIDELINES:
-1. One repository per report or analysis project
-2. Repository name should align with report name
-3. Project Document should be created prior to Change Control document
-4. Technical Requirement Outline (TR) sequence should align with technical tasks (indicated by TR)
-5. Once Final Scope is reached, input information into Github "Project Requirements"
+#### One repository per report or analysis project
+#### Repository name should align with report name
+#### Project Document should be created prior to Change Control document
+#### Technical Requirement Outline (TR) sequence should align with technical tasks (indicated by TR)
+#### Once Final Scope is reached, input information into Github "Project Requirements"
 
 # INTAKE
 #### Project Name:
@@ -45,10 +45,10 @@
 4.
 5.
 ## Out of Scope:
-#### 1.
+1.
 ##### Reason:
-#### 2.
+2.
 ##### Reason:
-#### 3.
+3.
 ##### Reason:
 
