@@ -1,6 +1,6 @@
 # Serivce-Level-2.0
 
-## GUIDELINES:
+## Guidelines:
 #### One repository per report or analysis project
 #### Repository name should align with report name
 #### Project Document should be created prior to Change Control document
