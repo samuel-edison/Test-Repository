@@ -1,20 +1,20 @@
 # Serivce-Level-2.0
 
-## INTAKE
+# INTAKE
 
-#### Project Name:
-#### Project Type: 
-#### Point of Contact:
-#### Point of Contact Mgr:
-#### Communication Plan: 
-#### Request Date: 
-#### Development Start Date:
-#### Stakeholder List:
-#### Project Description / Request:
+Project Name:
+Project Type: 
+Point of Contact:
+Point of Contact Mgr:
+Communication Plan: 
+Request Date: 
+Development Start Date:
+Stakeholder List:
+Project Description / Request:
 
-## DISCOVERY / DATA DESIGN
+# DISCOVERY / DATA DESIGN
 
-### Business Requirement Documentation (FAQ)
+## Business Requirement Documentation (FAQ)
 1. What is the core subject area?
 2. Is there any existing reporting being done around this?
 3. Where is the source data located?
@@ -28,25 +28,25 @@
 11. What are the definitions of those data filters/slicers?
 12. How frequent is the data needed to be refreshed?
 
-### Business Initial Requirement Outline:
+## Business Initial Requirement Outline:
 1.
 2.
 3.
 4.
 5.
 
-### Final Business Scope (after data exploration):
+## Final Business Scope (after data exploration):
 1.
 2.
 3.
 4.
 5.
 
-### Out of Scope:
+## Out of Scope:
 1.
-##### Reason:
+# Reason:
 2.
-##### Reason:
+# Reason:
 3.
-##### Reason:
+# Reason:
 
