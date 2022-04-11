@@ -8,15 +8,15 @@
 5. Once Final Scope is reached, input information into Github "Project Requirements"
 
 # INTAKE
-Project Name:
-Project Type: 
-Point of Contact:
-Point of Contact Mgr:
-Communication Plan: 
-Request Date: 
-Development Start Date:
-Stakeholder List:
-Project Description / Request:
+#### Project Name:
+#### Project Type: 
+#### Point of Contact:
+#### Point of Contact Mgr:
+#### Communication Plan: 
+#### Request Date: 
+#### Development Start Date:
+#### Stakeholder List:
+#### Project Description / Request:
 
 # DISCOVERY / DATA DESIGN
 ## Business Requirement Documentation (FAQ)
@@ -45,10 +45,10 @@ Project Description / Request:
 4.
 5.
 ## Out of Scope:
-1.
-Reason:
-2.
-Reason:
-3.
-Reason:
+#### 1.
+##### Reason:
+#### 2.
+##### Reason:
+#### 3.
+##### Reason:
 
