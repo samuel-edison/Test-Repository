@@ -1,4 +1,4 @@
-# Serivce-Level-2.0 Business Requirements
+# Service-Level-2.0 Business Requirements
 
 ## Intake
 #### Project Name:
